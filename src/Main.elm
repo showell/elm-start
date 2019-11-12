@@ -55,11 +55,15 @@ subscriptions _ =
 
 
 factorial n =
-    if n == 0 then
-        1
+    List.range 1 n |> List.product
 
-    else
-        n * factorial (n - 1)
+test n =
+    let
+        f num =
+            { result = ( num, factorial(num) )
+            }
+    in
+    List.range 1 7 |> List.map f
 
 -- VIEW
 
@@ -68,7 +72,7 @@ view : Model -> Browser.Document Msg
 view model =
     let
         _ =
-            Debug.log "hello" (factorial 7)
+            Debug.log "hello" (test 7)
     in
     { title = model.title
     , body = []

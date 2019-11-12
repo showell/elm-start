@@ -5128,15 +5128,32 @@ var $author$project$Main$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
-var $author$project$Main$factorial = function (n) {
-	return (!n) ? 1 : (n * $author$project$Main$factorial(n - 1));
-};
 var $elm$core$Debug$log = _Debug_log;
+var $elm$core$List$product = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$mul, 1, numbers);
+};
+var $author$project$Main$factorial = function (n) {
+	return $elm$core$List$product(
+		A2($elm$core$List$range, 1, n));
+};
+var $author$project$Main$test = function (n) {
+	var f = function (num) {
+		return {
+			result: _Utils_Tuple2(
+				num,
+				$author$project$Main$factorial(num))
+		};
+	};
+	return A2(
+		$elm$core$List$map,
+		f,
+		A2($elm$core$List$range, 1, 7));
+};
 var $author$project$Main$view = function (model) {
 	var _v0 = A2(
 		$elm$core$Debug$log,
 		'hello',
-		$author$project$Main$factorial(7));
+		$author$project$Main$test(7));
 	return {body: _List_Nil, title: model.title};
 };
 var $author$project$Main$main = $elm$browser$Browser$document(
