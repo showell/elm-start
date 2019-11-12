@@ -1,18 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Main</title>
-  <style>body { padding: 0; margin: 0; }</style>
-</head>
-
-<body>
-
-<pre id="elm"></pre>
-
-<script>
-try {
-(function(scope){
+let index = function(scope){
 'use strict';
 
 function F(arity, fun, wrapper) {
@@ -5156,25 +5142,32 @@ var $author$project$Main$view = function (model) {
 		$author$project$Main$test(7));
 	return {body: _List_Nil, title: model.title};
 };
-var $author$project$Main$main = $elm$browser$Browser$document(
-	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
-_Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
 
-  var app = Elm.Main.init({ node: document.getElementById("elm") });
+    return {
+        test: $author$project$Main$test,
+    }
 }
-catch (e)
-{
-  // display initialization errors (e.g. bad flags, infinite recursion)
-  var header = document.createElement("h1");
-  header.style.fontFamily = "monospace";
-  header.innerText = "Initialization Error";
-  var pre = document.getElementById("elm");
-  document.body.insertBefore(header, pre);
-  pre.innerText = e;
-  throw e;
-}
-</script>
 
-</body>
-</html>
+function toNative(elm) {
+    if (elm.$ == '[]') {
+        return [];
+    } else if (elm.$ == '::') {
+        var h = toNative(elm.a);
+        var r = toNative(elm.b);
+        return [ h ].concat(r);
+    } else if (elm.$ == '#2') {
+        // JS does not have tuples, so we make an array
+        return [ elm.a, elm.b ];
+    } else if (elm.result) {
+        // this is not generic!!!!
+        return {
+            result: toNative(elm.result)
+        };
+    } else {
+        return elm;
+    }
+}
+
+let result = index().test();
+
+console.log(toNative(result));
