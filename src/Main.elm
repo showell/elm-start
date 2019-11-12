@@ -54,6 +54,12 @@ subscriptions _ =
     Sub.none
 
 
+factorial n =
+    if n == 0 then
+        1
+
+    else
+        n * factorial (n - 1)
 
 -- VIEW
 
@@ -62,7 +68,7 @@ view : Model -> Browser.Document Msg
 view model =
     let
         _ =
-            Debug.log "hello" "hello"
+            Debug.log "hello" (factorial 7)
     in
     { title = model.title
     , body = []
