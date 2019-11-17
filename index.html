@@ -5193,7 +5193,7 @@ var $elm$core$List$repeat = F2(
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$textarea = _VirtualDom_node('textarea');
-var $author$project$Main$view = function (model) {
+var $author$project$Main$view = (function () {
 	var lotsOfFreds = function (s) {
 		var _v0 = A2($elm$core$Debug$log, 'actually calling lotsOfFreds', '');
 		return A2(
@@ -5208,22 +5208,24 @@ var $author$project$Main$view = function (model) {
 						A2($elm$core$List$repeat, 100000, s)))
 				]));
 	};
-	var body = _List_fromArray(
-		[
-			A2(
-			$elm$html$Html$textarea,
-			_List_fromArray(
-				[
-					$elm$html$Html$Events$onInput($author$project$Main$DontActuallyUpdateTheModel)
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text('type in here to repro bug (and open debugger)')
-				])),
-			A2($elm$html$Html$Lazy$lazy, lotsOfFreds, model.fred)
-		]);
-	return {body: body, title: model.title};
-};
+    return function(model) {
+        var body = _List_fromArray(
+            [
+                A2(
+                $elm$html$Html$textarea,
+                _List_fromArray(
+                    [
+                        $elm$html$Html$Events$onInput($author$project$Main$DontActuallyUpdateTheModel)
+                    ]),
+                _List_fromArray(
+                    [
+                        $elm$html$Html$text('type in here to repro bug (and open debugger)')
+                    ])),
+                A2($elm$html$Html$Lazy$lazy, lotsOfFreds, model.fred)
+            ]);
+        return {body: body, title: model.title};
+    }
+}());
 var $author$project$Main$main = $elm$browser$Browser$document(
 	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
