@@ -1,69 +1,56 @@
 module Main exposing (main)
 
-import Browser
-
-
-type alias Model =
-    { title : String
-    }
-
-
-type Msg
-    = Never
+import Benchmark exposing (benchmark, compare)
+import Benchmark.Runner exposing (program)
 
 
 
 -- MODEL / INIT
 
 
-main : Program () Model Msg
 main =
-    Browser.document
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = subscriptions
-        }
+    program suite
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
+suite =
+    Benchmark.compare "math"
+        "someMath"
+        (\_ -> someMath 1000 10 5)
+        "someMath2"
+        (\_ -> someMath2 1000 10 5)
+
+
+three =
+    3
+
+
+fac n =
+    List.product (List.range 1 n)
+
+
+someMath a b c =
     let
-        model =
-            { title = "simple demo"
-            }
+        double x =
+            x * 2
+
+        timesThree x =
+            x * three
+
+        compute =
+            double a + timesThree b + fac c
     in
-    ( model, Cmd.none )
+    compute
 
 
-
--- UPDATE
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    ( model, Cmd.none )
-
-
-
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Sub.none
-
-
-
--- VIEW
-
-
-view : Model -> Browser.Document Msg
-view model =
+someMath2 a b c =
     let
-        _ =
-            Debug.log "hello" "hello"
+        double x =
+            x * 2
+
+        timesThree x =
+            x * three
+
+        compute =
+            double a + timesThree b + fac c
     in
-    { title = model.title
-    , body = []
-    }
+    compute
