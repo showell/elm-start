@@ -14743,17 +14743,22 @@ var $author$project$Main$someMath = F3(
 		var compute = (_double(a) + timesThree(b)) + $author$project$Main$fac(c);
 		return compute;
 	});
-var $author$project$Main$someMath2 = F3(
+var $author$project$Main$someMath2 = (function() {
+    var timesThree = function (x) {
+        return x * $author$project$Main$three;
+    };
+    var _double = function (x) {
+        return x * 2;
+    };
+
+    return F3(
 	function (a, b, c) {
-		var timesThree = function (x) {
-			return x * $author$project$Main$three;
-		};
-		var _double = function (x) {
-			return x * 2;
-		};
 		var compute = (_double(a) + timesThree(b)) + $author$project$Main$fac(c);
 		return compute;
 	});
+
+}());
+
 var $author$project$Main$suite = A5(
 	$elm_explorations$benchmark$Benchmark$compare,
 	'math',
@@ -14761,7 +14766,7 @@ var $author$project$Main$suite = A5(
 	function (_v0) {
 		return A3($author$project$Main$someMath, 1000, 10, 5);
 	},
-	'someMath2',
+	'someMath2 (hoisted)',
 	function (_v1) {
 		return A3($author$project$Main$someMath2, 1000, 10, 5);
 	});
