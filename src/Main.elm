@@ -1,15 +1,19 @@
 module Main exposing (main)
 
 import Browser
+import Html exposing (Html)
+import Html.Events exposing (onInput)
+import Html.Lazy
 
 
 type alias Model =
     { title : String
+    , fred : String
     }
 
 
 type Msg
-    = Never
+    = DontActuallyUpdateTheModel String
 
 
 
@@ -31,6 +35,7 @@ init _ =
     let
         model =
             { title = "simple demo"
+            , fred = "fred" -- NEVER CHANGES!!!!
             }
     in
     ( model, Cmd.none )
@@ -61,9 +66,23 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view model =
     let
-        _ =
-            Debug.log "hello" "hello"
+        lotsOfFreds : String -> Html Msg
+        lotsOfFreds s =
+            let
+                -- We should only see this once, but it happens every time
+                -- you type in the textarea
+                _ =
+                    Debug.log "actually calling lotsOfFreds" ""
+            in
+            Html.pre [] [ Html.text (String.join "\n" (List.repeat 100000 s)) ]
+
+        body =
+            [ Html.textarea
+                [ onInput DontActuallyUpdateTheModel ]
+                [ Html.text "type in here to repro bug (and open debugger)" ]
+            , Html.Lazy.lazy lotsOfFreds model.fred
+            ]
     in
     { title = model.title
-    , body = []
+    , body = body
     }
