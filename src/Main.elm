@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Browser
+import CallGraph
 
 
 type alias Model =
@@ -61,8 +62,12 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view model =
     let
+        answer =
+            CallGraph.testAst
+                |> CallGraph.getTrueLocals
+
         _ =
-            Debug.log "hello" "hello"
+            Debug.log "hello" answer
     in
     { title = model.title
     , body = []
